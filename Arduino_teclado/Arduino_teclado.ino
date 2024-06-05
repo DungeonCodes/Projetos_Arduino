@@ -14,7 +14,7 @@ void setup() {
   pinMode(bot3, INPUT);
   pinMode(bot4, INPUT);
 
-  // put your setup code here, to run once:
+  
 
 }
 
