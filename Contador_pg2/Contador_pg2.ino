@@ -14,9 +14,9 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(D0, 0);
+  digitalWrite(D0, 1);
   digitalWrite(D1, 0);
-  digitalWrite(D2, 1);
+  digitalWrite(D2, 0);
   digitalWrite(D3, 0);
   
 
