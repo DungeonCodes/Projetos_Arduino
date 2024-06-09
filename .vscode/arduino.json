@@ -1,4 +1,6 @@
 {
     "board": "arduino:avr:uno",
-    "programmer": "arduinoisp"
+    "programmer": "arduinoisp",
+    "sketch": "CONTADOR_AUTOMATICO\\CONTADOR_AUTOMATICO.ino",
+    "port": "COM3"
 }
