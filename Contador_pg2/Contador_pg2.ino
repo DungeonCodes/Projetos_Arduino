@@ -1,7 +1,12 @@
+
 int D0 = 2;
 int D1 = 3;
 int D2 = 4;
 int D3 = 5;
+int b0 = 0;
+int b1 = 0;
+int b2 = 0;
+int b3 = 0;
 
 
 void setup() {
@@ -41,12 +46,18 @@ void printBinary(int number) {
 }
 
 void numero1() {
-  digitalWrite(D0, 1);
-  digitalWrite(D1, 0);
-  digitalWrite(D2, 0);
-  digitalWrite(D3, 0);
+  digitalWrite(D0, b0);
+  digitalWrite(D1, b1);
+  digitalWrite(D2, b2);
+  digitalWrite(D3, b3);
 }
 
 void loop() {
   numero1();
+  b0 = 1;
 }
+
+
+
+
+
