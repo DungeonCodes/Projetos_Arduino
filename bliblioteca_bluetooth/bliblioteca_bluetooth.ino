@@ -1,4 +1,10 @@
-// Professor Rafael Oliveira_Mamute_Eletrônica_2023
+
+#include <Servo.h>
+
+Servo myservo;// Cria um objeto baseado na biblioteca Servo
+
+int serv = 5;
+
 const int motorA1  = 5;    // Pin  1 of L293.
 const int motorA2  = 6;    // Pin  2 of L293.
 const int motorB1  = 10;   // Pin  3 of L293.
@@ -14,6 +20,8 @@ char state;
  
 void setup() {
   // Inicializa as portas como entrada e saída.
+  myservo.attach(9);// Diz que o objeto "myservo" está ligado ao pino 9
+  
   pinMode(motorA1, OUTPUT);
   pinMode(motorA2, OUTPUT);
   pinMode(motorB1, OUTPUT);
@@ -61,8 +69,10 @@ void loop() {
   // Se o estado recebido for igual a 'F', o carro se movimenta para frente.
   if (state == 'F') {
     digitalWrite(2, LOW);
+    myservo.write(180);// Comando para mandar o servo para posição 180
     delay(1000);
     digitalWrite(2, HIGH);
+    myservo.write(90);// Comando para mandar o servo para posição 90
     delay(1000);
     digitalWrite(2, LOW);
     
