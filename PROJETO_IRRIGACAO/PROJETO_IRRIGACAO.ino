@@ -1,113 +1,37 @@
-//Programa: Display LCD 16x2
-//Autor: MakerHero
- 
-//Carrega a biblioteca LiquidCrystal
-#include <LiquidCrystal.h>
- 
-//Define os pinos que serão utilizados para ligação ao display
-LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
- 
-void setup()
-{
-  //Define o número de colunas e linhas do LCD
-  lcd.begin(16, 2);
+const int pinoSensor = A0; // PINO UTILIZADO PELO SENSOR
+int valorLido; // VARIÁVEL QUE ARMAZENA O PERCENTUAL DE UMIDADE DO SOLO
+int bomba = 7;
+
+int analogSoloSeco = 400; // VALOR MEDIDO COM O SOLO SECO (VOCÊ PODE FAZER TESTES PARA AJUSTAR)
+int analogSoloMolhado = 150; // VALOR MEDIDO COM O SOLO MOLHADO (VOCÊ PODE FAZER TESTES PARA AJUSTAR)
+int percSoloSeco = 0; // MENOR PERCENTUAL DO SOLO SECO (0% - NÃO ALTERAR)
+int percSoloMolhado = 100; // MAIOR PERCENTUAL DO SOLO MOLHADO (100% - NÃO ALTERAR)
+
+void setup() {
+  Serial.begin(9600); // INICIALIZA A SERIAL
+  Serial.println("Lendo a umidade do solo..."); // IMPRIME O TEXTO NO MONITOR SERIAL
+  delay(2000); // INTERVALO DE 2 SEGUNDOS
+  pinMode(bomba, INPUT);
+
 }
+
+void loop() {
+  valorLido = constrain(analogRead(pinoSensor), analogSoloMolhado, analogSoloSeco);
+  valorLido = map(valorLido, analogSoloMolhado, analogSoloSeco, percSoloMolhado, percSoloSeco);
+  Serial.print("Umidade do solo: "); // IMPRIME O TEXTO NO MONITOR SERIAL
+  Serial.print(valorLido); // IMPRIME NO MONITOR SERIAL O PERCENTUAL DE UMIDADE
+  Serial.println("%"); // IMPRIME O CARACTERE NO MONITOR SERIAL
+  delay(1000); // INTERVALO DE 1 SEGUNDO
  
-void loop()
-{
-  //Limpa a tela
-  lcd.clear();
-  //Posiciona o cursor na coluna 3, linha 0;
-  lcd.setCursor(3, 0);
-  //Envia o texto entre aspas para o LCD
-  lcd.print("respeito nao");
-  lcd.setCursor(3, 1);
-  lcd.print("tem cor");
-  delay(5000);
-   //Rolagem para a esquerda
-  for (int posicao = 0; posicao < 3; posicao++)
-  {
-    lcd.scrollDisplayLeft();
-    delay(300);
+  if (valorLido < 50){
+    digitalWrite(bomba, HIGH);
+    Serial.println("BOMBA LIGADA");
+   
   }
-    
-  //Rolagem para a direita
-  for (int posicao = 0; posicao < 6; posicao++)
-  {
-    lcd.scrollDisplayRight();
-    delay(300);
+  if (valorLido > 50){
+    digitalWrite(bomba, LOW);
+     Serial.println("BOMBA DESLIGADA");
+   
   }
 
-//Limpa a tela
-  lcd.clear();
-  //Posiciona o cursor na coluna 3, linha 0;
-  lcd.setCursor(3, 0);
-  //Envia o texto entre aspas para o LCD
-  lcd.print("Black lives");
-  lcd.setCursor(3, 1);
-  lcd.print("matter");
-  delay(5000);
-   //Rolagem para a esquerda
-  for (int posicao = 0; posicao < 3; posicao++)
-  {
-    lcd.scrollDisplayLeft();
-    delay(300);
-  }
-    
-  //Rolagem para a direita
-  for (int posicao = 0; posicao < 6; posicao++)
-  {
-    lcd.scrollDisplayRight();
-    delay(300);
-  }
- //Limpa a tela
-  lcd.clear();
-  //Posiciona o cursor na coluna 3, linha 0;
-  lcd.setCursor(3, 0);
-  //Envia o texto entre aspas para o LCD
-  lcd.print("A alma");
-  lcd.setCursor(3, 1);
-  lcd.print("nao tem cor");
-  delay(5000);
-   //Rolagem para a esquerda
-  for (int posicao = 0; posicao < 3; posicao++)
-  {
-    lcd.scrollDisplayLeft();
-    delay(300);
-  }
-    
-  //Rolagem para a direita
-  for (int posicao = 0; posicao < 6; posicao++)
-  {
-    lcd.scrollDisplayRight();
-    delay(300);
-  }
-
-
-
-
-
-  //Limpa a tela
-  lcd.clear();
-  //Posiciona o cursor na coluna 3, linha 0;
-  lcd.setCursor(3, 0);
-  //Envia o texto entre aspas para o LCD
-  lcd.print("Sonho nao tem a ver");
-  lcd.setCursor(3, 1);
-  lcd.print("com a cor de pele");
-  delay(5000);
-    
-  //Rolagem para a esquerda
-  for (int posicao = 0; posicao < 3; posicao++)
-  {
-    lcd.scrollDisplayLeft();
-    delay(300);
-  }
-    
-  //Rolagem para a direita
-  for (int posicao = 0; posicao < 6; posicao++)
-  {
-    lcd.scrollDisplayRight();
-    delay(300);
-  }
 }
