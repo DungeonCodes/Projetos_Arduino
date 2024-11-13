@@ -13,14 +13,7 @@ void setup()
 void loop()
 {
   
- /*if(sensor > 70){ // acende o primeiro led se a intensidade do som passar de 70
-    digitalWrite(led1, HIGH);
-  }else{
-    digitalWrite(led1, LOW);
-  }*/
-  // Mostra os valores lidos, na serial
   som = analogRead(mic);
-  //Serial.println(som);
   delay(200);
 
   if(som > 25){ // acende o primeiro led se a intensidade do som passar de 70
