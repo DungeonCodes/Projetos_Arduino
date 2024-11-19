@@ -1,37 +1,54 @@
-const int pinoSensor = A0; // PINO UTILIZADO PELO SENSOR
-int valorLido; // VARIÁVEL QUE ARMAZENA O PERCENTUAL DE UMIDADE DO SOLO
-int bomba = 7;
+/*
+  ==         MONITOR DE UMIDADE DO SOLO        ==
+  ===============================================
+  == BLOG DA ROBOTICA - www.blogdarobotica.com ==
+  ===============================================
+  Autor: Carol Correia
+  E-mail: contato@blogdarobotica.com
+  Facebook: facebook.com/blogdarobotica
+  Instagram:@blogdarobotica
+  YouTube: youtube.com/user/blogdarobotica
+  ===============================================
+  == CASA DA ROBOTICA - www.casadarobotica.com ==
+  ===============================================
+  Facebook: facebook.com/casadaroboticaoficial
+  Instagram:@casadarobotica
+  ===============================================
+*/
 
-int analogSoloSeco = 400; // VALOR MEDIDO COM O SOLO SECO (VOCÊ PODE FAZER TESTES PARA AJUSTAR)
-int analogSoloMolhado = 150; // VALOR MEDIDO COM O SOLO MOLHADO (VOCÊ PODE FAZER TESTES PARA AJUSTAR)
-int percSoloSeco = 0; // MENOR PERCENTUAL DO SOLO SECO (0% - NÃO ALTERAR)
-int percSoloMolhado = 100; // MAIOR PERCENTUAL DO SOLO MOLHADO (100% - NÃO ALTERAR)
+#define umidadeAnalogica A0 //Atribui o pino A0 a variável umidade - leitura analógica do sensor
+#define umidadeDigital 7 //Atribui o pino 7 a variável umidadeDigital - leitura digital do sensor
+#define LedVermelho 5 //Atribui o pino 7 a variável LedVermelho
+#define LedVerde 6 //Atribui o pino 6 a variável LedVerde
+
+int valorumidade; //Declaração da variável que armazenará o valor da umidade lida - saída analogica
+int valorumidadeDigital; //Declaração da variável que armazenara a saída digital do sensor de umidade do solo
 
 void setup() {
-  Serial.begin(9600); // INICIALIZA A SERIAL
-  Serial.println("Lendo a umidade do solo..."); // IMPRIME O TEXTO NO MONITOR SERIAL
-  delay(2000); // INTERVALO DE 2 SEGUNDOS
-  pinMode(bomba, INPUT);
-
+  Serial.begin(9600); //Incia a comunicação serial
+  pinMode(umidadeAnalogica, INPUT); //Define umidadeAnalogica como entrada
+  pinMode(umidadeDigital, INPUT); //Define umidadeDigital como entrada
+  pinMode(LedVermelho, OUTPUT); //Define LedVermelho como saída
+  pinMode(LedVerde, OUTPUT); //Define LedVerde como saída
 }
 
 void loop() {
-  valorLido = constrain(analogRead(pinoSensor), analogSoloMolhado, analogSoloSeco);
-  valorLido = map(valorLido, analogSoloMolhado, analogSoloSeco, percSoloMolhado, percSoloSeco);
-  Serial.print("Umidade do solo: "); // IMPRIME O TEXTO NO MONITOR SERIAL
-  Serial.print(valorLido); // IMPRIME NO MONITOR SERIAL O PERCENTUAL DE UMIDADE
-  Serial.println("%"); // IMPRIME O CARACTERE NO MONITOR SERIAL
-  delay(1000); // INTERVALO DE 1 SEGUNDO
- 
-  if (valorLido < 50){
-    digitalWrite(bomba, HIGH);
-    Serial.println("BOMBA LIGADA");
-   
-  }
-  if (valorLido > 50){
-    digitalWrite(bomba, LOW);
-     Serial.println("BOMBA DESLIGADA");
-   
-  }
+  valorumidade = analogRead(umidadeAnalogica); //Realiza a leitura analógica do sensor e armazena em valorumidade
+  valorumidade = map(valorumidade, 1023, 315, 0, 100); //Transforma os valores analógicos em uma escala de 0 a 100
+  Serial.print("Umidade encontrada: "); //Imprime mensagem
+  Serial.print(valorumidade); //Imprime no monitor serial o valor de umidade em porcentagem
+  Serial.println(" % " );
 
+  valorumidadeDigital = digitalRead(umidadeDigital); //Realiza a leitura digital do sensor e armazena em valorumidadeDigital
+  if (valorumidadeDigital == 0) { //Se esse valor for igual a 0, será mostrado no monitor serial que o solo está úmido e o led verde se acende
+    Serial.println("Status: Solo úmido");
+    digitalWrite(LedVermelho, LOW);
+    digitalWrite(LedVerde, HIGH);
+  }
+  else { // se esse valor for igual a 1, será mostrado no monitor serial que o solo está seco e o led vermelho se acende
+    Serial.println("Status: Solo seco");
+    digitalWrite(LedVermelho, HIGH);
+    digitalWrite(LedVerde, LOW);
+  }
+  delay(500); //Atraso de 500ms
 }
