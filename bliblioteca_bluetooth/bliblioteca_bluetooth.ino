@@ -21,6 +21,10 @@ char state;
 void setup() {
   // Inicializa as portas como entrada e saída.
   myservo.attach(9);// Diz que o objeto "myservo" está ligado ao pino 9
+
+  digitalWrite(2, LOW);
+    myservo.write(180);// Comando para mandar o servo para posição 180
+    delay(1000);
   
   pinMode(motorA1, OUTPUT);
   pinMode(motorA2, OUTPUT);
@@ -68,9 +72,7 @@ void loop() {
  
   // Se o estado recebido for igual a 'F', o carro se movimenta para frente.
   if (state == 'F') {
-    digitalWrite(2, LOW);
-    myservo.write(180);// Comando para mandar o servo para posição 180
-    delay(1000);
+    
     digitalWrite(2, HIGH);
     myservo.write(90);// Comando para mandar o servo para posição 90
     delay(1000);
@@ -130,6 +132,10 @@ void loop() {
     analogWrite(motorB2, vSpeed);
   }
   else if (state == 'S') {   // Se o estado recebido for igual a 'S', o carro permanece parado.
+  digitalWrite(2, LOW);
+    myservo.write(180);// Comando para mandar o servo para posição 180
+    delay(1000);
+
     analogWrite(motorA1, 0);
     analogWrite(motorA2, 0);
     analogWrite(motorB1, 0);
